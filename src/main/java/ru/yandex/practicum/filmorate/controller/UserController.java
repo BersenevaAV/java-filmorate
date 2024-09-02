@@ -19,8 +19,6 @@ public class UserController {
 
     @PostMapping
     public User createUser(@RequestBody User user) {
-        //new ObjectMapper().registerModule(new JavaTimeModule());
-
         if (checkNewUser(user) == true) {
             user.setId(idGenerator++);
             users.put(user.getId(),user);
@@ -46,7 +44,7 @@ public class UserController {
         return user;
     }
 
-    public boolean checkNewUser(User newUser) {
+    private boolean checkNewUser(User newUser) {
         boolean trueEmail = !newUser.getEmail().isEmpty() && newUser.getEmail().contains("@");
         boolean trueLogin = !newUser.getLogin().isEmpty() && !newUser.getLogin().contains(" ");
         boolean trueBirthday = newUser.getBirthday().isBefore(LocalDate.now());

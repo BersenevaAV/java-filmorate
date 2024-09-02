@@ -1,39 +1,41 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
-
 import java.time.LocalDate;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserControllerTest {
     private final UserController userController = new UserController();
+    private User user1;
+
+    @BeforeEach
+    public void beforeEach() {
+        user1 = new User();
+    }
 
     @Test
     public void createCorrectUser() {
-        User user = new User();
-        user.setName("Mariya");
-        user.setLogin("Mariya2001");
-        user.setEmail("Mariya2001@mail.ru");
-        user.setBirthday(LocalDate.of(2001,4,12));
-        assertEquals(user,userController.createUser(user), "Возвращаемый объект не соответствует добавляемому");
+        user1.setName("Mariya");
+        user1.setLogin("Mariya2001");
+        user1.setEmail("Mariya2001@mail.ru");
+        user1.setBirthday(LocalDate.of(2001,4,12));
+        assertEquals(user1,userController.createUser(user1), "Возвращаемый объект не соответствует добавляемому");
     }
 
     @Test
     public void createUncorrectUser() {
-        User user = new User();
-        user.setName("Mariya");
-        user.setLogin("Mariya2");
-        user.setEmail("Mariya2mail.ru");
-        user.setBirthday(LocalDate.of(2001,4,12));
-        assertThrows(ValidationException.class, () -> userController.createUser(user), "Должно вызываться ValidationException");
+        user1.setName("Mariya");
+        user1.setLogin("Mariya2");
+        user1.setEmail("Mariya2mail.ru");
+        user1.setBirthday(LocalDate.of(2001,4,12));
+        assertThrows(ValidationException.class, () -> userController.createUser(user1), "Должно вызываться ValidationException");
     }
 
     @Test
     public void getUsers() {
-        User user1 = new User();
         user1.setName("Mariya");
         user1.setLogin("Mariya3");
         user1.setEmail("Mariya2001@mail.ru");

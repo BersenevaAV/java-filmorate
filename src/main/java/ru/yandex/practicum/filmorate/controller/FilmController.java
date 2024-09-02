@@ -45,7 +45,7 @@ public class FilmController {
         return film;
     }
 
-    public boolean checkNewFilm(Film newFilm) {
+    private boolean checkNewFilm(Film newFilm) {
         LocalDate firstDate = LocalDate.of(1895,12,28);
         boolean trueName = !newFilm.getName().isEmpty();
         boolean trueDescription = newFilm.getDescription().length() < 200;
