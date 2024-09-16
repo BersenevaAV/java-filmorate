@@ -1,58 +1,56 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
+import ru.yandex.practicum.filmorate.service.user.UserService;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/users")
-@Slf4j
 public class UserController {
-    private final Map<Integer, User> users = new HashMap<>();
-    private int idGenerator = 1;
+
+    private final UserService userService;
 
     @PostMapping
     public User createUser(@RequestBody User user) {
-        if (checkNewUser(user) == true) {
-            user.setId(idGenerator++);
-            users.put(user.getId(),user);
-            log.info("Пришел запрос на создание пользователя с login = {}",user.getLogin());
-        } else {
-            throw new ValidationException("Данные заданы неверно");
-        }
-        return user;
+        return userService.createUser(user);
     }
 
     @GetMapping
     public List<User> getAll() {
-        return new ArrayList<>(users.values());
+        return userService.getAll();
     }
 
     @PutMapping
     public User updateUser(@RequestBody User user) {
-        if (users.containsKey(user.getId()) && checkNewUser(user) == true) {
-            users.put(user.getId(),user);
-        } else {
-            throw new ValidationException("Данные заданы неверно");
-        }
-        return user;
+        return userService.updateUser(user);
     }
 
-    private boolean checkNewUser(User newUser) {
-        boolean trueEmail = !newUser.getEmail().isEmpty() && newUser.getEmail().contains("@");
-        boolean trueLogin = !newUser.getLogin().isEmpty() && !newUser.getLogin().contains(" ");
-        boolean trueBirthday = newUser.getBirthday().isBefore(LocalDate.now());
-        if (trueEmail && trueLogin && trueBirthday) {
-            if (newUser.getName() == null)
-                newUser.setName(newUser.getLogin());
-            return true;
-        } else
-            return false;
+    @GetMapping("/{id}")
+    public Optional<User> findById(@PathVariable int id) {
+        return userService.findById(id);
+    }
+
+    @PutMapping("/{id}/friends/{friendId}")
+    public User addInFriends(@PathVariable int id, @PathVariable int friendId) {
+        return userService.addInFriends(id, friendId);
+    }
+
+    @DeleteMapping("/{id}/friends/{friendId}")
+    public User deletefromFriends(@PathVariable int id, @PathVariable int friendId) {
+        return userService.deletefromFriends(id, friendId);
+    }
+
+    @GetMapping("/{id}/friends")
+    public List<User> getFriends(@PathVariable int id) {
+        return userService.getFriends(id);
+    }
+
+    @GetMapping("/{id}/friends/common/{otherId}")
+    public List<User> getCommonFriends(@PathVariable int id, @PathVariable int otherId) {
+        return userService.getCommonFriends(id, otherId);
     }
 }
