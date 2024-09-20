@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.user;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -9,6 +10,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Component
+@Qualifier("InMemory")
 public class InMemoryUserStorage implements UserStorage {
     private final Map<Integer, User> users = new HashMap<>();
     private int idGenerator = 1;
@@ -39,12 +41,14 @@ public class InMemoryUserStorage implements UserStorage {
         return user;
     }
 
+    @Override
     public Optional<User> findById(int id) {
         return users.values().stream()
                 .filter(x -> x.getId() == id)
                 .findFirst();
     }
 
+    @Override
     public User addInFriends(int id, int friendId) {
         if (!users.containsKey(friendId))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Неизвестный id друга.");
@@ -55,6 +59,7 @@ public class InMemoryUserStorage implements UserStorage {
         return users.get(friendId);
     }
 
+    @Override
     public User deleteFromFriends(int id, int friendId) {
         if (!users.containsKey(friendId))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Неизвестный id друга.");
@@ -65,6 +70,7 @@ public class InMemoryUserStorage implements UserStorage {
         return users.get(friendId);
     }
 
+    @Override
     public List<User> getFriends(int id) {
         if (!users.containsKey(id))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Неизвестный id");
@@ -73,6 +79,7 @@ public class InMemoryUserStorage implements UserStorage {
                 .toList();
     }
 
+    @Override
     public List<User> getCommonFriends(int id, int otherId) {
         if (!users.containsKey(id) || !users.containsKey(otherId))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Неизвестный id");
