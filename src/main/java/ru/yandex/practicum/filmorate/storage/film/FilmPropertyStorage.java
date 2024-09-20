@@ -31,17 +31,6 @@ public class FilmPropertyStorage {
 
     public MPA getMPA(int id) {
         String query = "select * from rating where id = ?";
-        /*MPA result = jdbc.queryForObject(query, new RowMapper<MPA>() {
-            @Override
-            public MPA mapRow(ResultSet rs, int rowNum) throws SQLException {
-                MPA mpa = new MPA(rs.getInt("id"), rs.getString("mpa"));
-                return mpa;
-            }
-        },id);
-        if (result != null)
-            return result;
-        else
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Объект не найден");*/
         try {
             return jdbc.queryForObject(query, new RowMapper<MPA>() {
                 @Override

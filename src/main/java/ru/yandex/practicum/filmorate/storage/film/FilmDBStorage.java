@@ -97,8 +97,7 @@ public class FilmDBStorage implements FilmStorage {
             mpaId = film.getMpa().getId();
         }
         if (checkNewFilm(film) == true) {
-            String queryUpdate = "update films set name=?, description=?, release_date=?, duration=?, rating_id=? where id=?" +
-                    "";
+            String queryUpdate = "update films set name=?, description=?, release_date=?, duration=?, rating_id=? where id=?";
             update(queryUpdate, film.getName(),film.getDescription(),film.getReleaseDate(),film.getDuration(),mpaId,film.getId());
             return film;
         } else
