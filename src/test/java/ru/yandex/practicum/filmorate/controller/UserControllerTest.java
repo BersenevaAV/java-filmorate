@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,6 +9,8 @@ import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.user.UserService;
 import ru.yandex.practicum.filmorate.storage.film.FilmDBStorage;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
+import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.storage.user.UserDBStorage;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 import java.time.LocalDate;
@@ -16,10 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UserControllerTest {
-    JdbcTemplate jdbcTemplate = new JdbcTemplate();
-    FilmStorage filmStorage = new FilmDBStorage(jdbcTemplate);
-    UserStorage userStorage = new UserDBStorage(jdbcTemplate);
-    UserService userService = new UserService(userStorage,filmStorage);
+    FilmStorage filmStorage = new InMemoryFilmStorage();
+    UserStorage userStorage = new InMemoryUserStorage();
+    UserService userService = new UserService(userStorage, filmStorage);
     private final UserController userController = new UserController(userService);
     private User user1;
 
