@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Service
 public class FilmPropertyService {
-    FilmPropertyStorage filmPropertyStorage;
+    private final FilmPropertyStorage filmPropertyStorage;
 
     public List<MPA> getAllMPA() {
         return filmPropertyStorage.getAllMPA();
