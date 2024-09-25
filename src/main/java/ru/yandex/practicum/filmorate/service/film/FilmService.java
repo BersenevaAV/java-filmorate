@@ -14,8 +14,9 @@ import java.util.Optional;
 @AllArgsConstructor
 @Service
 public class FilmService {
-    private final FilmStorage filmStorage;
+
     private final UserStorage userStorage;
+    private final FilmStorage filmStorage;
 
     public Film createFilm(Film film) {
         log.info("Пришел запрос на создание фильма с name = {}",film.getName());

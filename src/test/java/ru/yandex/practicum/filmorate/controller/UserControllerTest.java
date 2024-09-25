@@ -11,14 +11,13 @@ import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 import java.time.LocalDate;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UserControllerTest {
-    UserStorage userStorage = new InMemoryUserStorage();
     FilmStorage filmStorage = new InMemoryFilmStorage();
-    UserService userService = new UserService(userStorage,filmStorage);
+    UserStorage userStorage = new InMemoryUserStorage();
+    UserService userService = new UserService(userStorage, filmStorage);
     private final UserController userController = new UserController(userService);
     private User user1;
 

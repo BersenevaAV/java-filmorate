@@ -12,13 +12,12 @@ import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 import java.time.LocalDate;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class FilmControllerTest {
     FilmStorage filmStorage = new InMemoryFilmStorage();
     UserStorage userStorage = new InMemoryUserStorage();
-    FilmService filmService = new FilmService(filmStorage,userStorage);
+    FilmService filmService = new FilmService(userStorage, filmStorage);
     private final FilmController filmController = new FilmController(filmService);
     private Film film1;
     private User user1;

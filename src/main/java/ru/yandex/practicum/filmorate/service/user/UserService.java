@@ -13,6 +13,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @Service
 public class UserService {
+
     private final UserStorage userStorage;
     private final FilmStorage filmStorage;
 
